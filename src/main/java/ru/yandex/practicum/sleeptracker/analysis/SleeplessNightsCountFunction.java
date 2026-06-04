@@ -41,7 +41,7 @@ public class SleeplessNightsCountFunction implements Function<List<SleepingSessi
     }
 
     private LocalDate getFirstPotentialNightDate(List<SleepingSession> sessions) {
-        SleepingSession firstSession = sessions.get(0);
+        SleepingSession firstSession = sessions.getFirst();
 
         LocalDate firstDate = firstSession.getSleepStart().toLocalDate();
         LocalTime firstTime = firstSession.getSleepStart().toLocalTime();
@@ -54,7 +54,7 @@ public class SleeplessNightsCountFunction implements Function<List<SleepingSessi
     }
 
     private LocalDate getLastPotentialNightDateExclusive(List<SleepingSession> sessions) {
-        SleepingSession lastSession = sessions.get(sessions.size() - 1);
+        SleepingSession lastSession = sessions.getLast();
 
         return lastSession.getSleepEnd()
                 .toLocalDate()

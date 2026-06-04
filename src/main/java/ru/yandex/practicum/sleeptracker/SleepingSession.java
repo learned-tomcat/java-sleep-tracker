@@ -41,7 +41,7 @@ public class SleepingSession {
     }
 
     public boolean hasBadQuality() {
-        return quality == SleepQuality.BAD;
+        return getQuality() == SleepQuality.BAD;
     }
 
     public boolean intersectsNight(LocalDate nightDate) {

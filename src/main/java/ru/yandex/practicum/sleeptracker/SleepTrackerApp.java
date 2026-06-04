@@ -51,7 +51,7 @@ public class SleepTrackerApp {
 
             ANALYSIS_FUNCTIONS.stream()
                     .map(function -> function.apply(sessions))
-                    .map(SleepAnalysisResult::toString)
+                    .map(result -> result.getDescription() + ": " + result.getValue())
                     .forEach(System.out::println);
         } catch (IOException exception) {
             System.out.println("Не удалось прочитать файл: " + exception.getMessage());
