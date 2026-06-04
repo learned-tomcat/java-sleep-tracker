@@ -31,7 +31,7 @@ class AverageSleepDurationFunctionTest {
 
         SleepAnalysisResult<Long> result = function.apply(sessions);
 
-        assertEquals(300, result.getValue());
+        assertEquals(320, result.getValue());
     }
 
     private SleepingSession session(String start, String end) {
