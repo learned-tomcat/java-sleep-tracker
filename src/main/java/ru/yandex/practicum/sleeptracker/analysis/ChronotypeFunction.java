@@ -13,6 +13,8 @@ import java.util.stream.Collectors;
 
 public class ChronotypeFunction implements Function<List<SleepingSession>, SleepAnalysisResult<Chronotype>> {
 
+    private static final String DESCRIPTION = "Хронотип пользователя";
+
     private static final LocalTime OWL_SLEEP_TIME = LocalTime.of(23, 0);
     private static final LocalTime OWL_WAKE_UP_TIME = LocalTime.of(9, 0);
 
@@ -20,16 +22,16 @@ public class ChronotypeFunction implements Function<List<SleepingSession>, Sleep
     private static final LocalTime LARK_WAKE_UP_TIME = LocalTime.of(7, 0);
 
     private static final LocalTime EARLY_MORNING_BORDER = LocalTime.of(6, 0);
-    private static final LocalTime NOON = LocalTime.NOON;
 
     @Override
     public SleepAnalysisResult<Chronotype> apply(List<SleepingSession> sessions) {
+        if (sessions == null) {
+            throw new IllegalArgumentException("Список сессий сна не может быть null.");
+        }
+
         Chronotype chronotype = defineChronotype(sessions);
 
-        return new SleepAnalysisResult<>(
-                "Хронотип пользователя",
-                chronotype
-        );
+        return new SleepAnalysisResult<>(DESCRIPTION, chronotype);
     }
 
     private Chronotype defineChronotype(List<SleepingSession> sessions) {
@@ -85,7 +87,6 @@ public class ChronotypeFunction implements Function<List<SleepingSession>, Sleep
     }
 
     private boolean isEarlySleepStart(LocalTime sleepStartTime) {
-        return sleepStartTime.isBefore(LARK_SLEEP_TIME)
-                && !sleepStartTime.isBefore(NOON);
+        return sleepStartTime.isBefore(LARK_SLEEP_TIME);
     }
 }

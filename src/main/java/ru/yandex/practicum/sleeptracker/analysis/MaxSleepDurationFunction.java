@@ -8,16 +8,19 @@ import java.util.function.Function;
 
 public class MaxSleepDurationFunction implements Function<List<SleepingSession>, SleepAnalysisResult<Long>> {
 
+    private static final String DESCRIPTION = "Максимальная продолжительность сессии сна в минутах";
+
     @Override
     public SleepAnalysisResult<Long> apply(List<SleepingSession> sessions) {
+        if (sessions == null) {
+            throw new IllegalArgumentException("Список сессий сна не может быть null.");
+        }
+
         long maxDuration = sessions.stream()
                 .mapToLong(SleepingSession::getDurationInMinutes)
                 .max()
                 .orElse(0);
 
-        return new SleepAnalysisResult<>(
-                "Максимальная продолжительность сессии сна в минутах",
-                maxDuration
-        );
+        return new SleepAnalysisResult<>(DESCRIPTION, maxDuration);
     }
 }

@@ -12,16 +12,18 @@ import java.util.stream.LongStream;
 
 public class SleeplessNightsCountFunction implements Function<List<SleepingSession>, SleepAnalysisResult<Long>> {
 
+    private static final String DESCRIPTION = "Количество бессонных ночей";
     private static final LocalTime NOON = LocalTime.NOON;
 
     @Override
     public SleepAnalysisResult<Long> apply(List<SleepingSession> sessions) {
+        if (sessions == null) {
+            throw new IllegalArgumentException("Список сессий сна не может быть null.");
+        }
+
         long sleeplessNights = countSleeplessNights(sessions);
 
-        return new SleepAnalysisResult<>(
-                "Количество бессонных ночей",
-                sleeplessNights
-        );
+        return new SleepAnalysisResult<>(DESCRIPTION, sleeplessNights);
     }
 
     private long countSleeplessNights(List<SleepingSession> sessions) {
@@ -41,7 +43,7 @@ public class SleeplessNightsCountFunction implements Function<List<SleepingSessi
     }
 
     private LocalDate getFirstPotentialNightDate(List<SleepingSession> sessions) {
-        SleepingSession firstSession = sessions.getFirst();
+        SleepingSession firstSession = sessions.get(0);
 
         LocalDate firstDate = firstSession.getSleepStart().toLocalDate();
         LocalTime firstTime = firstSession.getSleepStart().toLocalTime();
@@ -54,7 +56,7 @@ public class SleeplessNightsCountFunction implements Function<List<SleepingSessi
     }
 
     private LocalDate getLastPotentialNightDateExclusive(List<SleepingSession> sessions) {
-        SleepingSession lastSession = sessions.getLast();
+        SleepingSession lastSession = sessions.get(sessions.size() - 1);
 
         return lastSession.getSleepEnd()
                 .toLocalDate()

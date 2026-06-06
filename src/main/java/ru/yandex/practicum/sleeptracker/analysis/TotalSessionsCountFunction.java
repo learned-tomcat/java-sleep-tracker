@@ -8,11 +8,14 @@ import java.util.function.Function;
 
 public class TotalSessionsCountFunction implements Function<List<SleepingSession>, SleepAnalysisResult<Integer>> {
 
+    private static final String DESCRIPTION = "Всего сессий сна";
+
     @Override
     public SleepAnalysisResult<Integer> apply(List<SleepingSession> sessions) {
-        return new SleepAnalysisResult<>(
-                "Всего сессий сна",
-                sessions.size()
-        );
+        if (sessions == null) {
+            throw new IllegalArgumentException("Список сессий сна не может быть null.");
+        }
+
+        return new SleepAnalysisResult<>(DESCRIPTION, sessions.size());
     }
 }

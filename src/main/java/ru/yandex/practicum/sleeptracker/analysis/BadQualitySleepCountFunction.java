@@ -8,15 +8,18 @@ import java.util.function.Function;
 
 public class BadQualitySleepCountFunction implements Function<List<SleepingSession>, SleepAnalysisResult<Long>> {
 
+    private static final String DESCRIPTION = "Количество сессий с плохим качеством сна";
+
     @Override
     public SleepAnalysisResult<Long> apply(List<SleepingSession> sessions) {
+        if (sessions == null) {
+            throw new IllegalArgumentException("Список сессий сна не может быть null.");
+        }
+
         long badQualitySessions = sessions.stream()
                 .filter(SleepingSession::hasBadQuality)
                 .count();
 
-        return new SleepAnalysisResult<>(
-                "Количество сессий с плохим качеством сна",
-                badQualitySessions
-        );
+        return new SleepAnalysisResult<>(DESCRIPTION, badQualitySessions);
     }
 }
